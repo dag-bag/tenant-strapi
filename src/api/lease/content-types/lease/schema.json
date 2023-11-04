@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lease",
+  "info": {
+    "singularName": "lease",
+    "pluralName": "leases",
+    "displayName": "Lease",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "approved": {
+      "type": "boolean"
+    }
+  }
+}
