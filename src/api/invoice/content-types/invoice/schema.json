@@ -29,8 +29,23 @@
     },
     "status": {
       "type": "string",
-      "enum": ["unpaid", "paid"],
+      "enum": [
+        "unpaid",
+        "paid"
+      ],
       "defaultsTo": "unpaid"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "invoices"
+    },
+    "service_provider": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::service-provider.service-provider",
+      "inversedBy": "invoices"
     }
   }
 }

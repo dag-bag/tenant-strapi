@@ -12,11 +12,31 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "string"
+    "amount": {
+      "type": "float",
+      "required": true
     },
-    "approved": {
-      "type": "boolean"
+    "date": {
+      "type": "datetime",
+      "required": true
+    },
+    "lease": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::lease.lease",
+      "inversedBy": "payment"
+    },
+    "third_party_integration": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::third-party-integration.third-party-integration",
+      "inversedBy": "payment"
+    },
+    "tenant": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "payment"
     }
   }
 }

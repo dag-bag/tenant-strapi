@@ -32,6 +32,18 @@
     },
     "address": {
       "type": "string"
+    },
+    "maintenance_requests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::maintenance-request.maintenance-request",
+      "mappedBy": "service_provider"
+    },
+    "invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice.invoice",
+      "mappedBy": "service_provider"
     }
   }
 }

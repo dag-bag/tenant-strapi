@@ -18,8 +18,25 @@
     },
     "status": {
       "type": "string",
-      "enum": ["pending", "in-progress", "completed", "canceled"],
+      "enum": [
+        "pending",
+        "in-progress",
+        "completed",
+        "canceled"
+      ],
       "defaultsTo": "pending"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "maintenance_requests"
+    },
+    "service_provider": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::service-provider.service-provider",
+      "inversedBy": "maintenance_requests"
     }
   }
 }

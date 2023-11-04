@@ -616,6 +616,36 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.role'
     >;
     phone: Attribute.BigInteger;
+    properties: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::property.property'
+    >;
+    leases: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::lease.lease'
+    >;
+    lease: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::lease.lease'
+    >;
+    maintenance_requests: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::maintenance-request.maintenance-request'
+    >;
+    invoices: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::invoice.invoice'
+    >;
+    payment: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::payment.payment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -694,6 +724,16 @@ export interface ApiInvoiceInvoice extends Schema.CollectionType {
     due_date: Attribute.DateTime & Attribute.Required;
     description: Attribute.Text;
     status: Attribute.String;
+    user: Attribute.Relation<
+      'api::invoice.invoice',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    service_provider: Attribute.Relation<
+      'api::invoice.invoice',
+      'manyToOne',
+      'api::service-provider.service-provider'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -761,6 +801,16 @@ export interface ApiLeaseLease extends Schema.CollectionType {
     rent_amount: Attribute.Float & Attribute.Required;
     deposit_amount: Attribute.Float & Attribute.Required;
     terms: Attribute.Text;
+    user: Attribute.Relation<
+      'api::lease.lease',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    payment: Attribute.Relation<
+      'api::lease.lease',
+      'oneToOne',
+      'api::payment.payment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -794,6 +844,16 @@ export interface ApiMaintenanceRequestMaintenanceRequest
   attributes: {
     description: Attribute.Text & Attribute.Required;
     status: Attribute.String;
+    user: Attribute.Relation<
+      'api::maintenance-request.maintenance-request',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    service_provider: Attribute.Relation<
+      'api::maintenance-request.maintenance-request',
+      'manyToOne',
+      'api::service-provider.service-provider'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -824,8 +884,23 @@ export interface ApiPaymentPayment extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String;
-    approved: Attribute.Boolean;
+    amount: Attribute.Float & Attribute.Required;
+    date: Attribute.DateTime & Attribute.Required;
+    lease: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'api::lease.lease'
+    >;
+    third_party_integration: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'api::third-party-integration.third-party-integration'
+    >;
+    tenant: Attribute.Relation<
+      'api::payment.payment',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -860,6 +935,11 @@ export interface ApiPropertyProperty extends Schema.CollectionType {
     type: Attribute.String;
     size: Attribute.Integer;
     amenities: Attribute.JSON;
+    user: Attribute.Relation<
+      'api::property.property',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -897,6 +977,16 @@ export interface ApiServiceProviderServiceProvider
     servicesOffered: Attribute.JSON;
     ratings: Attribute.Float;
     address: Attribute.String;
+    maintenance_requests: Attribute.Relation<
+      'api::service-provider.service-provider',
+      'oneToMany',
+      'api::maintenance-request.maintenance-request'
+    >;
+    invoices: Attribute.Relation<
+      'api::service-provider.service-provider',
+      'oneToMany',
+      'api::invoice.invoice'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -965,7 +1055,12 @@ export interface ApiThirdPartyIntegrationThirdPartyIntegration
     type: Attribute.String & Attribute.Required;
     api_key: Attribute.String & Attribute.Required;
     configuration: Attribute.JSON;
-    status: Attribute.String;
+    payment: Attribute.Relation<
+      'api::third-party-integration.third-party-integration',
+      'oneToOne',
+      'api::payment.payment'
+    >;
+    status: Attribute.Enumeration<['active', 'inactive']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

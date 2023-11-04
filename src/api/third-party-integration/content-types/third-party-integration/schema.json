@@ -32,10 +32,18 @@
     "configuration": {
       "type": "json"
     },
+    "payment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::payment.payment",
+      "mappedBy": "third_party_integration"
+    },
     "status": {
-      "type": "string",
-      "enum": ["active", "inactive"],
-      "defaultsTo": "inactive"
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "inactive"
+      ]
     }
   }
 }
