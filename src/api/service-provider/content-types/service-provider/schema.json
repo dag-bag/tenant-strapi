@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "service-provider",
+  "info": {
+    "singularName": "service-provider",
+    "pluralName": "service-providers",
+    "displayName": "Service-provider",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "phone": {
+      "type": "string"
+    },
+    "servicesOffered": {
+      "type": "json"
+    },
+    "ratings": {
+      "type": "float"
+    },
+    "address": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "maintenance-request",
+  "info": {
+    "singularName": "maintenance-request",
+    "pluralName": "maintenance-requests",
+    "displayName": "Maintenance-request",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "in-progress", "completed", "canceled"],
+      "defaultsTo": "pending"
+    }
+  }
+}

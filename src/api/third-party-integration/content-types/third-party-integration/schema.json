@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "third-party-integration",
+  "info": {
+    "singularName": "third-party-integration",
+    "pluralName": "third-party-integrations",
+    "displayName": "Third-party-integration",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "integration_id": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "string",
+      "required": true
+    },
+    "api_key": {
+      "type": "string",
+      "required": true
+    },
+    "configuration": {
+      "type": "json"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive"],
+      "defaultsTo": "inactive"
+    }
+  }
+}

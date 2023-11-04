@@ -12,11 +12,18 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
       "type": "string"
     },
-    "approved": {
-      "type": "boolean"
+    "size": {
+      "type": "integer"
+    },
+    "amenities": {
+      "type": "json"
     }
   }
 }

@@ -689,8 +689,11 @@ export interface ApiInvoiceInvoice extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String;
-    approved: Attribute.Boolean;
+    amount: Attribute.Float & Attribute.Required;
+    date_issued: Attribute.DateTime & Attribute.Required;
+    due_date: Attribute.DateTime & Attribute.Required;
+    description: Attribute.Text;
+    status: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -753,8 +756,11 @@ export interface ApiLeaseLease extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String;
-    approved: Attribute.Boolean;
+    start_date: Attribute.DateTime & Attribute.Required;
+    end_date: Attribute.DateTime & Attribute.Required;
+    rent_amount: Attribute.Float & Attribute.Required;
+    deposit_amount: Attribute.Float & Attribute.Required;
+    terms: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -766,6 +772,39 @@ export interface ApiLeaseLease extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::lease.lease',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMaintenanceRequestMaintenanceRequest
+  extends Schema.CollectionType {
+  collectionName: 'maintenance-request';
+  info: {
+    singularName: 'maintenance-request';
+    pluralName: 'maintenance-requests';
+    displayName: 'Maintenance-request';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.Text & Attribute.Required;
+    status: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::maintenance-request.maintenance-request',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::maintenance-request.maintenance-request',
       'oneToOne',
       'admin::user'
     > &
@@ -817,8 +856,10 @@ export interface ApiPropertyProperty extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.String;
-    approved: Attribute.Boolean;
+    address: Attribute.String & Attribute.Required;
+    type: Attribute.String;
+    size: Attribute.Integer;
+    amenities: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -830,6 +871,43 @@ export interface ApiPropertyProperty extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::property.property',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiServiceProviderServiceProvider
+  extends Schema.CollectionType {
+  collectionName: 'service-provider';
+  info: {
+    singularName: 'service-provider';
+    pluralName: 'service-providers';
+    displayName: 'Service-provider';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    email: Attribute.String & Attribute.Required & Attribute.Unique;
+    phone: Attribute.String;
+    servicesOffered: Attribute.JSON;
+    ratings: Attribute.Float;
+    address: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::service-provider.service-provider',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::service-provider.service-provider',
       'oneToOne',
       'admin::user'
     > &
@@ -869,6 +947,43 @@ export interface ApiTenantTenant extends Schema.CollectionType {
   };
 }
 
+export interface ApiThirdPartyIntegrationThirdPartyIntegration
+  extends Schema.CollectionType {
+  collectionName: 'third-party-integration';
+  info: {
+    singularName: 'third-party-integration';
+    pluralName: 'third-party-integrations';
+    displayName: 'Third-party-integration';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    integration_id: Attribute.String & Attribute.Required & Attribute.Unique;
+    name: Attribute.String & Attribute.Required;
+    type: Attribute.String & Attribute.Required;
+    api_key: Attribute.String & Attribute.Required;
+    configuration: Attribute.JSON;
+    status: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::third-party-integration.third-party-integration',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::third-party-integration.third-party-integration',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -888,9 +1003,12 @@ declare module '@strapi/types' {
       'api::invoice.invoice': ApiInvoiceInvoice;
       'api::landlord.landlord': ApiLandlordLandlord;
       'api::lease.lease': ApiLeaseLease;
+      'api::maintenance-request.maintenance-request': ApiMaintenanceRequestMaintenanceRequest;
       'api::payment.payment': ApiPaymentPayment;
       'api::property.property': ApiPropertyProperty;
+      'api::service-provider.service-provider': ApiServiceProviderServiceProvider;
       'api::tenant.tenant': ApiTenantTenant;
+      'api::third-party-integration.third-party-integration': ApiThirdPartyIntegrationThirdPartyIntegration;
     }
   }
 }

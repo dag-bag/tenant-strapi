@@ -12,11 +12,24 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "string"
+    "start_date": {
+      "type": "datetime",
+      "required": true
     },
-    "approved": {
-      "type": "boolean"
+    "end_date": {
+      "type": "datetime",
+      "required": true
+    },
+    "rent_amount": {
+      "type": "float",
+      "required": true
+    },
+    "deposit_amount": {
+      "type": "float",
+      "required": true
+    },
+    "terms": {
+      "type": "text"
     }
   }
 }

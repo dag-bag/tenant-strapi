@@ -12,11 +12,25 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "string"
+    "amount": {
+      "type": "float",
+      "required": true
     },
-    "approved": {
-      "type": "boolean"
+    "date_issued": {
+      "type": "datetime",
+      "required": true
+    },
+    "due_date": {
+      "type": "datetime",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["unpaid", "paid"],
+      "defaultsTo": "unpaid"
     }
   }
 }
