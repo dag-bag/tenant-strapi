@@ -17,6 +17,12 @@
     },
     "approved": {
       "type": "boolean"
+    },
+    "property": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::property.property",
+      "inversedBy": "tenants"
     }
   }
 }

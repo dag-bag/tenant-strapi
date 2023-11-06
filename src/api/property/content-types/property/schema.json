@@ -25,11 +25,23 @@
     "amenities": {
       "type": "json"
     },
-    "user": {
+    "owner": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "properties"
+    },
+    "tenants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tenant.tenant",
+      "mappedBy": "property"
+    },
+    "maintenance_requests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::maintenance-request.maintenance-request",
+      "mappedBy": "property"
     }
   }
 }

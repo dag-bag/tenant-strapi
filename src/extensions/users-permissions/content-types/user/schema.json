@@ -68,40 +68,40 @@
     "phone": {
       "type": "biginteger"
     },
-    "properties": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::property.property",
-      "mappedBy": "user"
-    },
-    "leases": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::lease.lease",
-      "mappedBy": "user"
-    },
     "lease": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::lease.lease"
-    },
-    "maintenance_requests": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::maintenance-request.maintenance-request",
-      "mappedBy": "user"
-    },
-    "invoices": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::invoice.invoice",
-      "mappedBy": "user"
     },
     "payment": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::payment.payment",
       "mappedBy": "tenant"
+    },
+    "properties": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::property.property",
+      "mappedBy": "owner"
+    },
+    "maintenance_requests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::maintenance-request.maintenance-request",
+      "mappedBy": "requester"
+    },
+    "leases": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lease.lease",
+      "mappedBy": "landord"
+    },
+    "invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice.invoice",
+      "mappedBy": "recipient"
     }
   }
 }

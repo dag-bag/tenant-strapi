@@ -31,7 +31,7 @@
     "terms": {
       "type": "text"
     },
-    "user": {
+    "landord": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
@@ -41,6 +41,17 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::payment.payment",
+      "mappedBy": "lease"
+    },
+    "tenant": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "invoice": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::invoice.invoice",
       "mappedBy": "lease"
     }
   }

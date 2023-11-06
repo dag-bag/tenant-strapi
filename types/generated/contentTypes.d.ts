@@ -616,35 +616,35 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.role'
     >;
     phone: Attribute.BigInteger;
-    properties: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::property.property'
-    >;
-    leases: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::lease.lease'
-    >;
     lease: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToOne',
       'api::lease.lease'
+    >;
+    payment: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::payment.payment'
+    >;
+    properties: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::property.property'
     >;
     maintenance_requests: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::maintenance-request.maintenance-request'
     >;
+    leases: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::lease.lease'
+    >;
     invoices: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::invoice.invoice'
-    >;
-    payment: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToOne',
-      'api::payment.payment'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -724,7 +724,7 @@ export interface ApiInvoiceInvoice extends Schema.CollectionType {
     due_date: Attribute.DateTime & Attribute.Required;
     description: Attribute.Text;
     status: Attribute.String;
-    user: Attribute.Relation<
+    recipient: Attribute.Relation<
       'api::invoice.invoice',
       'manyToOne',
       'plugin::users-permissions.user'
@@ -733,6 +733,11 @@ export interface ApiInvoiceInvoice extends Schema.CollectionType {
       'api::invoice.invoice',
       'manyToOne',
       'api::service-provider.service-provider'
+    >;
+    lease: Attribute.Relation<
+      'api::invoice.invoice',
+      'oneToOne',
+      'api::lease.lease'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -801,7 +806,7 @@ export interface ApiLeaseLease extends Schema.CollectionType {
     rent_amount: Attribute.Float & Attribute.Required;
     deposit_amount: Attribute.Float & Attribute.Required;
     terms: Attribute.Text;
-    user: Attribute.Relation<
+    landord: Attribute.Relation<
       'api::lease.lease',
       'manyToOne',
       'plugin::users-permissions.user'
@@ -810,6 +815,16 @@ export interface ApiLeaseLease extends Schema.CollectionType {
       'api::lease.lease',
       'oneToOne',
       'api::payment.payment'
+    >;
+    tenant: Attribute.Relation<
+      'api::lease.lease',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    invoice: Attribute.Relation<
+      'api::lease.lease',
+      'oneToOne',
+      'api::invoice.invoice'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -844,7 +859,7 @@ export interface ApiMaintenanceRequestMaintenanceRequest
   attributes: {
     description: Attribute.Text & Attribute.Required;
     status: Attribute.String;
-    user: Attribute.Relation<
+    requester: Attribute.Relation<
       'api::maintenance-request.maintenance-request',
       'manyToOne',
       'plugin::users-permissions.user'
@@ -853,6 +868,11 @@ export interface ApiMaintenanceRequestMaintenanceRequest
       'api::maintenance-request.maintenance-request',
       'manyToOne',
       'api::service-provider.service-provider'
+    >;
+    property: Attribute.Relation<
+      'api::maintenance-request.maintenance-request',
+      'manyToOne',
+      'api::property.property'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -935,10 +955,20 @@ export interface ApiPropertyProperty extends Schema.CollectionType {
     type: Attribute.String;
     size: Attribute.Integer;
     amenities: Attribute.JSON;
-    user: Attribute.Relation<
+    owner: Attribute.Relation<
       'api::property.property',
       'manyToOne',
       'plugin::users-permissions.user'
+    >;
+    tenants: Attribute.Relation<
+      'api::property.property',
+      'oneToMany',
+      'api::tenant.tenant'
+    >;
+    maintenance_requests: Attribute.Relation<
+      'api::property.property',
+      'oneToMany',
+      'api::maintenance-request.maintenance-request'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1019,6 +1049,11 @@ export interface ApiTenantTenant extends Schema.CollectionType {
   attributes: {
     title: Attribute.String;
     approved: Attribute.Boolean;
+    property: Attribute.Relation<
+      'api::tenant.tenant',
+      'manyToOne',
+      'api::property.property'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

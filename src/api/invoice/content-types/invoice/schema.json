@@ -35,7 +35,7 @@
       ],
       "defaultsTo": "unpaid"
     },
-    "user": {
+    "recipient": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
@@ -46,6 +46,12 @@
       "relation": "manyToOne",
       "target": "api::service-provider.service-provider",
       "inversedBy": "invoices"
+    },
+    "lease": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::lease.lease",
+      "inversedBy": "invoice"
     }
   }
 }
